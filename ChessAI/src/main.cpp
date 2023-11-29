@@ -35,6 +35,11 @@ public:
 		return m_BoardAlpha;
 	}
 
+	char* GetBoardLowerAlpha()
+	{
+		return m_BoardLowerAlpha;
+	}
+
 	char* GetBoardNumbers()
 	{
 		return m_BoardNumbers;
@@ -55,6 +60,7 @@ private:
 
 	char m_BoardNumbers[8]{ '1', '2', '3', '4', '5', '6', '7', '8' };
 	char m_BoardAlpha[8]{ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
+	char m_BoardLowerAlpha[8]{ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
 };
 
 bool ValidateInput(std::string value, int min, int max, Board* board)
@@ -70,25 +76,23 @@ bool ValidateInput(std::string value, int min, int max, Board* board)
 	strcpy_s(coords, value.c_str());
 
 	char* alpha = board->GetBoardAlpha();
+	char* lAlpha = board->GetBoardLowerAlpha();
 	char* numbers = board->GetBoardNumbers();
 	bool ac = false;
 	bool nc = false;
 
 	for (int i = 0; i < 8; i++)
-	{
 		if (coords[0] == alpha[i])
-		{
 			ac = true;
-		}
-	}
 
 	for (int i = 0; i < 8; i++)
-	{
+		if (coords[0] == lAlpha[i])
+			ac = true;
+
+
+	for (int i = 0; i < 8; i++)
 		if (coords[1] == numbers[i])
-		{
 			nc = true;
-		}
-	}
 
 	if (!ac || !nc)
 		return false;
@@ -106,6 +110,7 @@ int main(int argc, char* argv)
 
 	while (input != "exit")
 	{
+		std::cout << "<Width><Height>: ";
 		std::cin >> input;
 
 		while (!ValidateInput(input, 2, 2, &board))
