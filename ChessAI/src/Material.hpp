@@ -53,7 +53,87 @@ struct Material
 		}
 	}
 
+	bool ValidMove(std::pair<int, int> origin, std::pair<int, int> newLocation, Material board[8][8])
+	{
+		switch (m_Piece)
+		{
+		case None:
+			break;
+		case Pon:
+			if (m_Player == 1)
+			{
+				if (origin.first == newLocation.first)
+				{
+					// Can only move forward (2 if first move)
+					if (m_MoveCount > 0)
+					{
+						// Only forward 1
+						if (origin.second - newLocation.second == 1)
+						{
+							if (board[newLocation.second][newLocation.first].GetType() == None)
+								return true;
+							else
+								return false;
+						}
+					}
+					else
+					{
+						// Only forward < 2
+						if (origin.second - newLocation.second >= 1 && origin.second - newLocation.second <= 2)
+						{
+							if (board[newLocation.second][newLocation.first].GetType() == None)
+								return true;
+							else
+								return false;
+						}
+					}
+				}
+				else if (origin.second - newLocation.second == 1 && origin.first - newLocation.first == -1)
+				{
+					if (board[newLocation.second][newLocation.first].GetType() != None)
+						return true;
+					else
+						return false;
+				}
+				else if (origin.second - newLocation.second == 1 && origin.first - newLocation.first == 1)
+				{
+					if (board[newLocation.second][newLocation.first].GetType() != None)
+						return true;
+					else
+						return false;
+				}
+			}
+			else if (m_Player == 2)
+			{
+
+			}
+			break;
+		case Tower:
+			break;
+		case Knight:
+			break;
+		case Bishop:
+			break;
+		case King:
+			break;
+		case Queen:
+			break;
+		default:
+			break;
+		}
+
+
+		return false;
+	}
+
+	void MoveIncrease()
+	{
+		m_MoveCount++;
+	}
+
 private:
 	int m_Player;
 	MaterialType m_Piece;
+
+	int m_MoveCount = 0;
 };
